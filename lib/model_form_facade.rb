@@ -1,9 +1,9 @@
 require_relative "model_form_facade/version"
-require "activesupport"
+require "active_support"
 
 module ModelFormFacade
   class Error < StandardError; end
-  
+
   extend ActiveSupport::Concern
 
   included do
