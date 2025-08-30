@@ -149,7 +149,7 @@ module ModelFormFacade
 
     def create_form_class_for(field_name)
       class_name = "anonymous_#{field_name}_form".camelize
-      const_set(class_name, Class.new.tap { _1.include ModelForm })
+      const_set(class_name, Class.new.tap { _1.include ModelFormFacade })
     end
 
     def field_methods_module
