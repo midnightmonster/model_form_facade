@@ -42,7 +42,7 @@ module ModelFormFacade
     errs = object_error_messages.reject { |k, v| k.to_s.include? "." } # Remove nested, we'll recurse
     hash = self.class.fields.values.filter_map do |field|
       err = case field.type
-      in :scalar then errs[field.attribute]&.map(&:capitalize)&.join(";").presence
+      in :scalar then errs[field.attribute]&.map(&:capitalize)&.join("; ").presence
       in :object then field.form.new(send(field.name)).errors(root: false)
       in :array then (send(field.name) || []).map { field.form.new(_1).errors(root: false) }
       end
