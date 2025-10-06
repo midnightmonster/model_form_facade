@@ -63,15 +63,16 @@ module ModelFormFacade
 
   def set_fields(params, root: nil)
     params = params.expect(expectation(root:)) if params.respond_to?(:expect) && !params.permitted?
-    self.attributes = params
+    assign_attributes(params)
   end
   alias_method :fields=, :set_fields
 
-  def attributes=(hash)
+  def assign_attributes(hash)
     hash.each do |key, value|
       send("#{key}=", value)
     end
   end
+  alias_method :attributes=, :assign_attributes
 
   def attributes = as_json
 
@@ -101,6 +102,21 @@ module ModelFormFacade
     end
   end
 
+  class MockObject
+    attr_accessor :attributes
+
+    def self.define_writer(write_method)
+      key = write_method.to_s.delete_suffix("=")
+      define_method(write_method) do |v|
+        attributes[key] = v
+      end
+    end
+
+    def initialize
+      self.attributes = {}
+    end
+  end
+
   module FieldMethods; end
 
   class_methods do
@@ -124,6 +140,13 @@ module ModelFormFacade
       {root => expected}
     end
 
+    def as_written(hash)
+      obj = mock_object_class.new
+      instance = new(obj)
+      instance.assign_attributes(hash)
+      obj.attributes
+    end
+
     private
 
     def _relation(name, allow_destroy: false, form: nil, read: nil, write: nil, attribute: nil, type: nil, &block)
@@ -144,7 +167,15 @@ module ModelFormFacade
       field = Field.new(name:, read:, write:, attribute:, type:, form:)
       self.fields = {**fields, name.to_sym => field}
       field_methods_module.define_method(name) { object&.send(read) } unless read == false
-      field_methods_module.define_method(:"#{name}=") { |value| object.send(write, value) } unless write == false
+      return if write == false
+      mock_object_class.define_writer(write)
+      write_method =
+        case field.type
+        in :object then ->(value) { object.send(write, field.form.as_written(value)) }
+        in :array then ->(value) { object.send(write, value.map { |v| field.form.as_written(v) }) }
+        in :scalar then ->(value) { object.send(write, value) }
+        end
+      field_methods_module.define_method(:"#{name}=", write_method)
     end
 
     def create_form_class_for(field_name)
@@ -159,6 +190,10 @@ module ModelFormFacade
       FieldMethods.const_set(module_name, @field_methods_module) if module_name
       include @field_methods_module
       @field_methods_module
+    end
+
+    def mock_object_class
+      @mock_object_class ||= Class.new(MockObject)
     end
   end
 end
