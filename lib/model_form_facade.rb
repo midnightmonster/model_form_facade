@@ -172,7 +172,10 @@ module ModelFormFacade
       write_method =
         case field.type
         in :object then ->(value) { object.send(write, field.form.as_written(value)) }
-        in :array then ->(value) { object.send(write, value.values.map { |v| field.form.as_written(v) }) }
+        in :array then ->(value) {
+          items = value.is_a?(Hash) ? value.values : Array(value)
+          object.send(write, items.map { |v| field.form.as_written(v) })
+        }
         in :scalar then ->(value) { object.send(write, value) }
         end
       field_methods_module.define_method(:"#{name}=", write_method)
