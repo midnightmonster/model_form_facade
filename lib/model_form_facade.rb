@@ -173,7 +173,7 @@ module ModelFormFacade
         case field.type
         in :object then ->(value) { object.send(write, field.form.as_written(value)) }
         in :array then ->(value) {
-          items = value.is_a?(Hash) ? value.values : Array(value)
+          items = value.respond_to?(:values) ? value.values : Array(value)
           object.send(write, items.map { |v| field.form.as_written(v) })
         }
         in :scalar then ->(value) { object.send(write, value) }
