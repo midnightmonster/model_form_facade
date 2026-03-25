@@ -1,0 +1,41 @@
+<div class="mb-4">
+  <%= link_to "← Back", workshops_path, class: "btn btn-ghost btn-sm" %>
+</div>
+
+<div class="card bg-base-100 shadow">
+  <div class="card-body">
+    <h1 class="card-title text-2xl"><%= workshop.title %></h1>
+    <div class="flex gap-2">
+      <span class="badge"><%= workshop.category %></span>
+      <span class="badge badge-outline"><%= workshop.status %></span>
+    </div>
+    <p><strong>Slug:</strong> <code><%= workshop.slug %></code></p>
+    <p><strong>Dates:</strong> <%= workshop.start_date %> – <%= workshop.end_date %></p>
+    <p><strong>Max Capacity:</strong> <%= workshop.max_capacity %></p>
+
+    <% if workshop.description&.markdown.present? %>
+      <div class="mt-4">
+        <h3 class="font-bold">Description</h3>
+        <p class="whitespace-pre-wrap"><%= workshop.description.markdown %></p>
+      </div>
+    <% end %>
+
+    <% if workshop.pricing_info&.markdown.present? %>
+      <div class="mt-4">
+        <h3 class="font-bold">Pricing Info</h3>
+        <p class="whitespace-pre-wrap"><%= workshop.pricing_info.markdown %></p>
+      </div>
+    <% end %>
+
+    <% if workshop.materials.any? %>
+      <div class="mt-4">
+        <h3 class="font-bold">Materials</h3>
+        <ul class="list-disc list-inside">
+          <% workshop.materials.each do |m| %>
+            <li><%= m.name %> — qty: <%= m.quantity %>, cost: $<%= m.unit_cost %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>

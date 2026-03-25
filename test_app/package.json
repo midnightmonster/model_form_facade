@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "vite": "^8.0.1",
+    "vite-plugin-ruby": "^5.2.0"
+  },
+  "dependencies": {
+    "@hotwired/turbo-rails": "^8.0.23",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "daisyui": "^5.5.19",
+    "fast-json-patch": "^3.1.1",
+    "svelte": "^5.54.1",
+    "tailwindcss": "^4.2.2"
+  }
+}

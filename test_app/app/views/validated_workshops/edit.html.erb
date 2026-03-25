@@ -1,0 +1,3 @@
+<h1 class="text-2xl font-bold mb-6">Edit Workshop (with form-level validations)</h1>
+<p class="mb-4 text-sm opacity-70">This form uses ValidatedWorkshopForm which adds form-level validations on top of model validations.</p>
+<%= svelte_form :ValidatedWorkshopForm, validated_workshop_form, action: validated_workshop_path(workshop), method: "patch" %>

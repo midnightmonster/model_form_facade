@@ -1,0 +1,31 @@
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold">Registrations</h1>
+  <%= link_to "New Registration", new_registration_path, class: "btn btn-primary" %>
+</div>
+
+<div class="overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Workshop</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% registrations.each do |r| %>
+        <tr>
+          <td><%= r.first_name %> <%= r.last_name %></td>
+          <td><%= r.email %></td>
+          <td><%= r.workshop.title %></td>
+          <td><span class="badge"><%= r.status %></span></td>
+          <td>
+            <%= link_to "Edit", edit_registration_path(r), class: "btn btn-xs" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

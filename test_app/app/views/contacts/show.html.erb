@@ -1,0 +1,66 @@
+<h1 class="text-2xl font-bold mb-6">Contact Us</h1>
+
+<% if @success %>
+  <div class="alert alert-success mb-6">
+    <span>Thank you for your message! We'll be in touch.</span>
+  </div>
+<% end %>
+
+<%= form_with model: contact_form, url: contact_path, method: :patch, id: form_id, class: "card bg-base-100 shadow" do |f| %>
+  <div class="card-body flex flex-col gap-4">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="form-control">
+        <%= f.label :first_name, class: "label" %>
+        <%= f.text_field :first_name, class: "input input-bordered w-full #{'input-error' if contact_form.errors[:first_name].any?}", required: true %>
+        <% if contact_form.errors[:first_name].any? %>
+          <span class="text-error text-sm"><%= contact_form.errors[:first_name].join(", ") %></span>
+        <% end %>
+      </div>
+      <div class="form-control">
+        <%= f.label :last_name, class: "label" %>
+        <%= f.text_field :last_name, class: "input input-bordered w-full #{'input-error' if contact_form.errors[:last_name].any?}", required: true %>
+        <% if contact_form.errors[:last_name].any? %>
+          <span class="text-error text-sm"><%= contact_form.errors[:last_name].join(", ") %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <%= f.label :email, class: "label" %>
+      <%= f.email_field :email, class: "input input-bordered w-full #{'input-error' if contact_form.errors[:email].any?}", required: true %>
+      <% if contact_form.errors[:email].any? %>
+        <span class="text-error text-sm"><%= contact_form.errors[:email].join(", ") %></span>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="form-control">
+        <%= f.label :phone, class: "label" %>
+        <%= f.phone_field :phone, class: "input input-bordered w-full" %>
+      </div>
+      <div class="form-control">
+        <%= f.label :postal_code, class: "label" %>
+        <%= f.text_field :postal_code, class: "input input-bordered w-full" %>
+      </div>
+    </div>
+
+    <div class="form-control">
+      <%= f.label :message, class: "label" %>
+      <%= f.text_area :message, class: "textarea textarea-bordered w-full", rows: 4 %>
+    </div>
+
+    <div class="form-control">
+      <label class="label cursor-pointer justify-start gap-2">
+        <%= f.check_box :marketing_consent, class: "checkbox" %>
+        <span>I consent to being contacted about workshops</span>
+      </label>
+      <% if contact_form.errors[:marketing_consent].any? %>
+        <span class="text-error text-sm"><%= contact_form.errors[:marketing_consent].join(", ") %></span>
+      <% end %>
+    </div>
+
+    <div class="form-control mt-2">
+      <%= f.submit "Send Message", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>

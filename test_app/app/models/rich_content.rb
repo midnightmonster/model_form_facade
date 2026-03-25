@@ -1,0 +1,2 @@
+class RichContent < ApplicationRecord
+end
