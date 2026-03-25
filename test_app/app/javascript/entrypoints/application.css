@@ -1,2 +1,4 @@
 @import "tailwindcss";
+@source "../../views/**/*.html.erb";
+@source "../components/**/*.svelte";
 @plugin "daisyui";

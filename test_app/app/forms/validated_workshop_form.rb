@@ -19,15 +19,4 @@ class ValidatedWorkshopForm < RecordForm
   def options = {categories: object.category_options}
 
   def model_name = object.model_name
-
-  private
-
-  def _params_root(root: nil)
-    case root.nil? ? params_root : root
-    in true then :workshop
-    in false then nil
-    in Symbol => sym then sym
-    in String => str then str.to_sym
-    end
-  end
 end

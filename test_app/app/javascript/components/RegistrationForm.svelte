@@ -31,18 +31,20 @@
 
         <h3 class="font-bold text-lg mt-4">Additional Attendees</h3>
         <ClassicNestedFormSet name="additional_attendees">
-          <div class="grid grid-cols-2 gap-3">
-            <TextField legend="First Name" name="first_name" required />
-            <TextField legend="Last Name" name="last_name" required />
-          </div>
-          <div class="grid grid-cols-2 gap-3 mt-2">
-            <TextField legend="Email" name="email" type="email" />
-            <TextField legend="Phone" name="phone" type="tel" />
-          </div>
-          <div class="grid grid-cols-2 gap-3 mt-2">
-            <TextField legend="Dietary Requirements" name="dietary_requirements" />
-            <TextField legend="Age" name="age" type="number" />
-          </div>
+          <DataForm>
+            <div class="grid grid-cols-2 gap-3">
+              <TextField legend="First Name" name="first_name" required />
+              <TextField legend="Last Name" name="last_name" required />
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-2">
+              <TextField legend="Email" name="email" type="email" />
+              <TextField legend="Phone" name="phone" type="tel" />
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-2">
+              <TextField legend="Dietary Requirements" name="dietary_requirements" />
+              <TextField legend="Age" name="age" type="number" />
+            </div>
+          </DataForm>
           {#snippet add(addItem)}
             <button type="button" class="btn btn-sm btn-outline" onclick={() => addItem()}>+ Add Attendee</button>
           {/snippet}

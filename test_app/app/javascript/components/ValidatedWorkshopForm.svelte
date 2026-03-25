@@ -29,10 +29,12 @@
 
         <h3 class="font-bold text-lg">Materials</h3>
         <ClassicNestedFormSet name="materials">
-          <div class="grid grid-cols-2 gap-3">
-            <TextField legend="Name" name="name" required />
-            <TextField legend="Quantity" name="quantity" type="number" />
-          </div>
+          <DataForm>
+            <div class="grid grid-cols-2 gap-3">
+              <TextField legend="Name" name="name" required />
+              <TextField legend="Quantity" name="quantity" type="number" />
+            </div>
+          </DataForm>
           {#snippet add(addItem)}
             <button type="button" class="btn btn-sm btn-outline" onclick={() => addItem()}>+ Add Material</button>
           {/snippet}

@@ -41,21 +41,25 @@
 
         <h3 class="font-bold text-lg">Materials</h3>
         <ClassicNestedFormSet name="materials">
-          <div class="grid grid-cols-4 gap-3">
-            <TextField legend="Name" name="name" required />
-            <TextField legend="Quantity" name="quantity" type="number" />
-            <TextField legend="Unit Cost" name="unit_cost" type="number" />
-            {#snippet hidden_field()}
-              {@const field = dataField("hidden")}
-              <Fieldset legend="Hidden">
-                <label class="label cursor-pointer justify-start gap-2">
-                  <input type="checkbox" name={field.name} class="checkbox" bind:checked={field.value} />
-                  <span>Hidden</span>
-                </label>
-              </Fieldset>
-            {/snippet}
-            {@render hidden_field()}
-          </div>
+          <DataForm>
+            <div class="grid grid-cols-4 gap-3">
+              <TextField legend="Name" name="name" required />
+              <TextField legend="Quantity" name="quantity" type="number" />
+              <TextField legend="Unit Cost" name="unit_cost" type="number" />
+              {#snippet hidden_field()}
+                {@const field = dataField("hidden")}
+                {@const [get, set] = field.asBoolean}
+                <Fieldset legend="Hidden">
+                  <input type="hidden" name={field.name} value="false" />
+                  <label class="label cursor-pointer justify-start gap-2">
+                    <input type="checkbox" name={field.name} class="checkbox" bind:checked={get, set} value="true" />
+                    <span>Hidden</span>
+                  </label>
+                </Fieldset>
+              {/snippet}
+              {@render hidden_field()}
+            </div>
+          </DataForm>
           {#snippet add(addItem)}
             <button type="button" class="btn btn-sm btn-outline" onclick={() => addItem()}>+ Add Material</button>
           {/snippet}

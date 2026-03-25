@@ -7,4 +7,8 @@ class Registration < ApplicationRecord
   accepts_nested_attributes_for :attendees, allow_destroy: true
 
   validates :email, presence: true
+
+  def primary_attendee = attendees.first
+
+  def additional_attendees = attendees.to_a[1..]
 end
