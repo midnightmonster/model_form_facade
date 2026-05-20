@@ -12,6 +12,7 @@ module ModelFormFacade
     attr_reader :object
     private attr_writer :object
     private attr_accessor :component_props
+    delegate :model_name, :to_key, :to_model, to: :object
   end
 
   def initialize(model_object = nil, root: nil, **component_props)
@@ -86,7 +87,7 @@ module ModelFormFacade
 
   private def _params_root(root: nil)
     case root.nil? ? params_root : root
-    in true then object.class.name&.split("::")&.last&.downcase&.to_sym
+    in true then model_name&.param_key&.to_sym
     in false then nil
     in Symbol => sym then sym
     in String => str then str.to_sym
